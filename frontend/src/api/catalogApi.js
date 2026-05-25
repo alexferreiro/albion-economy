@@ -1,7 +1,7 @@
 const ITEMS_TXT_URL =
   "https://raw.githubusercontent.com/broderickhyman/ao-bin-dumps/master/formatted/items.txt";
 
-const SKIP_PATTERN = /FARM_|MOUNT_|MOB_|QUESTITEM|SEED|BABY|BUTTER|MEAT|FISH|MEAL_|POTION_|TRASH|TOKEN/;
+const SKIP_PATTERN = /FARM_|MOUNT_|MOB_|QUESTITEM|SEED|BABY|BUTTER|MEAT|FISH|MEAL_|POTION_|TRASH|TOKEN|ARTEFACT_|RUNE|SOUL|RELIC|SHARD|MATERIAL|FIBER|HIDE|ORE|WOOD|ROCK|CLOTH|LEATHER|METALBAR|PLANKS|STONEBLOCK/;
 
 let _cache   = null;
 let _promise = null;
@@ -49,6 +49,7 @@ export async function loadCatalog() {
 
 /**
  * Search the catalog for items matching a query string.
+ * Scoring: exact name match > name starts with > name contains > id match
  * Returns up to 15 results sorted by relevance.
  */
 export function searchCatalog(catalog, query) {
@@ -60,10 +61,19 @@ export function searchCatalog(catalog, query) {
       item.localizedName.toLowerCase().includes(q) ||
       item.uniqueName.toLowerCase().includes(q)
     )
-    .sort((a, b) => {
-      const aStarts = a.localizedName.toLowerCase().startsWith(q) || a.uniqueName.toLowerCase().startsWith(q);
-      const bStarts = b.localizedName.toLowerCase().startsWith(q) || b.uniqueName.toLowerCase().startsWith(q);
-      return (aStarts ? 0 : 1) - (bStarts ? 0 : 1);
+    .map(item => {
+      const name = item.localizedName.toLowerCase();
+      const id   = item.uniqueName.toLowerCase();
+      let score = 10;
+      if (name === q || id === q)          score = 0; // exact
+      else if (name.startsWith(q))         score = 1; // name starts with
+      else if (id.startsWith(q))           score = 2; // id starts with
+      else if (name.includes(` ${q}`))     score = 3; // word boundary in name
+      else if (name.includes(q))           score = 4; // name contains
+      else                                 score = 5; // id contains
+      return { item, score };
     })
-    .slice(0, 15);
+    .sort((a, b) => a.score - b.score)
+    .slice(0, 15)
+    .map(({ item }) => item);
 }
