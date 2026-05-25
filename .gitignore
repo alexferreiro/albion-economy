@@ -1,33 +1,29 @@
-HELP.md
+# Backend
 target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+*.jar
+*.class
+.mvn/
+albiondb.*
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Frontend
+node_modules/
+dist/
+.vite/
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+# Environment / secrets — NUNCA subir al repo
+.env
+.env.local
+.env.production
+*.env
+application-prod.yml
+application-secrets.yml
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
+# IDE
+.idea/
 .vscode/
+*.iml
+*.iws
+
+# OS
+.DS_Store
+Thumbs.db
