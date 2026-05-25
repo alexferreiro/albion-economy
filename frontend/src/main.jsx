@@ -15,10 +15,10 @@ function Root() {
         display: 'flex', gap: 4, padding: '8px 16px',
       }}>
         <NavBtn active={page === 'calculator'} onClick={() => setPage('calculator')}>
-          ⚒ Calculator
+          Calculator
         </NavBtn>
         <NavBtn active={page === 'specs'} onClick={() => setPage('specs')}>
-          🎯 Specialization
+          Specialization
         </NavBtn>
       </nav>
 
