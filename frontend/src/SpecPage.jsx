@@ -121,7 +121,7 @@ export default function SpecPage() {
       <header style={s.header}>
         <div style={s.headerInner}>
           <div>
-            <div style={s.title}>🎯 Crafting Specialization</div>
+            <div style={s.title}>Crafting Specialization</div>
             <div style={s.subtitle}>Manage your mastery & spec levels — saved automatically</div>
           </div>
           <div style={s.stats}>
@@ -300,8 +300,9 @@ const s = {
   masteryLabel: { fontSize: 11, color: "#9090b0", minWidth: 56, fontWeight: 600 },
   slider: { flex: 1, maxWidth: 220, accentColor: "#f0a030" },
   numInput: { background: "#0f0f18", border: "1px solid #3a3a52", borderRadius: 4,
-    color: "#e8e6e1", padding: "2px 6px", fontSize: 12, fontFamily: "monospace",
-    outline: "none", width: 46, textAlign: "center" },
+    color: "#e8e6e1", padding: "2px 8px", fontSize: 12, fontFamily: "monospace",
+    outline: "none", width: 58, textAlign: "center",
+    MozAppearance: "textfield", WebkitAppearance: "none" },
   pts: { fontSize: 11, fontFamily: "monospace", color: "#f0c030", minWidth: 70 },
 
   itemGrid: { display: "flex", flexDirection: "column" },

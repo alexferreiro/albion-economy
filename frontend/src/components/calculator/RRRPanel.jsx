@@ -11,7 +11,7 @@ export function RRRPanel({
   return (
     <div style={s.panel}>
       <div style={s.title}>
-        <span>⚗ Resource Return Rate (RRR)</span>
+        <span>Resource Return Rate (RRR)</span>
         <span style={s.badge}>
           PB: <strong>{productionBonus}%</strong>
           {" · "}RRR: <strong style={{ color: "#6fcf97" }}>{(rrr * 100).toFixed(1)}%</strong>
