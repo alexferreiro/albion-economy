@@ -1,0 +1,22 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+  background: #0f0f13;
+  color: #e8e6e1;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+body { -webkit-font-smoothing: antialiased; }
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button { opacity: 0.5; }
+
+input[type="range"] { cursor: pointer; accent-color: #f0a030; }
+
+button { font-family: inherit; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #1a1a22; }
+::-webkit-scrollbar-thumb { background: #3a3a4a; border-radius: 3px; }
