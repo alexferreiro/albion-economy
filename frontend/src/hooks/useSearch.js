@@ -79,6 +79,7 @@ export function useSearch() {
     // Autocomplete
     query, handleQueryChange, handleSelect,
     suggestions, sugLoading, showSug, setShowSug,
+    selectedItem,
     // Search
     handleSearch, searching, searched, baseItem, rows,
   };

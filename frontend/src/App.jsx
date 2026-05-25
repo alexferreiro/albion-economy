@@ -31,8 +31,12 @@ export default function App() {
   const {
     query, handleQueryChange, handleSelect,
     suggestions, sugLoading, showSug, setShowSug,
+    selectedItem,
     handleSearch, searching, searched, baseItem, rows,
   } = useSearch();
+
+  // Display name: use localized name if item was selected from autocomplete
+  const itemDisplayName = selectedItem?.localizedName || baseItem;
 
   // Group rows by tier for rendering
   const byTier = TIERS.map(tier => ({
@@ -116,9 +120,20 @@ export default function App() {
         {searched && rows.length > 0 && (
           <div style={s.results}>
             <div style={s.resultsHeader}>
-              <span>
-                Results for <strong style={{ color: "#d4b87a" }}>{baseItem}</strong>
-              </span>
+              <div style={s.itemTitleRow}>
+                <img
+                  src={`https://render.albiononline.com/v1/item/T4_${baseItem}.png?size=64`}
+                  alt={itemDisplayName}
+                  style={s.itemIcon}
+                  onError={e => { e.target.style.display = "none"; }}
+                />
+                <div>
+                  <div style={s.itemDisplayName}>{itemDisplayName}</div>
+                  {itemDisplayName !== baseItem && (
+                    <div style={s.itemDisplayId}>{baseItem}</div>
+                  )}
+                </div>
+              </div>
               <span style={s.hint2}>
                 RRR: <strong style={{ color: "#d4b87a" }}>{(rrr * 100).toFixed(1)}%</strong>
                 {" · "}PB: {productionBonus}%
@@ -189,6 +204,10 @@ const s = {
   results:       { display: "flex", flexDirection: "column", gap: 12 },
   resultsHeader: {
     display: "flex", justifyContent: "space-between", alignItems: "center",
-    flexWrap: "wrap", gap: 8, fontSize: 13, color: "#9090aa",
+    flexWrap: "wrap", gap: 8,
   },
+  itemTitleRow:    { display: "flex", alignItems: "center", gap: 12 },
+  itemIcon:        { width: 52, height: 52, borderRadius: 8, border: "1px solid #2a2a3a", background: "#17171f" },
+  itemDisplayName: { fontSize: 18, fontWeight: 700, color: "#f0c030" },
+  itemDisplayId:   { fontSize: 11, color: "#6060a0", fontFamily: "monospace", marginTop: 2 },
 };
