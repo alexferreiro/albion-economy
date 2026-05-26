@@ -6,11 +6,11 @@ export const ENCHANT_ITEM_SUFFIX = {
 };
 
 export const TIER_COLORS = {
-  4: { bg: "#1e1600", text: "#ffd060", border: "#5a4400", accent: "#ffc030", header: "#2a1e00" },
-  5: { bg: "#001a0e", text: "#4dde8a", border: "#00522a", accent: "#3dcc7a", header: "#002414" },
-  6: { bg: "#001428", text: "#4db8ff", border: "#00407a", accent: "#2aa8ff", header: "#001c38" },
-  7: { bg: "#16002e", text: "#c87aff", border: "#4a0080", accent: "#b060ff", header: "#200040" },
-  8: { bg: "#200000", text: "#ff7070", border: "#620000", accent: "#ff5050", header: "#2e0000" },
+  4: { bg: "#001428", text: "#4db8ff", border: "#00407a", accent: "#2aa8ff", header: "#001c38" },
+  5: { bg: "#200000", text: "#ff6060", border: "#620000", accent: "#ff4444", header: "#2e0000" },
+  6: { bg: "#1e1000", text: "#ff8c00", border: "#6a3800", accent: "#ff7700", header: "#2a1600" },
+  7: { bg: "#1e1600", text: "#ffd060", border: "#5a4400", accent: "#ffc030", header: "#2a1e00" },
+  8: { bg: "#1e1e1e", text: "#f0f0f0", border: "#606060", accent: "#ffffff", header: "#2a2a2a" },
 };
 
 // Refined resources that have enchanted versions in the market
