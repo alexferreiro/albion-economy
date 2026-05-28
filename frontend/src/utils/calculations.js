@@ -135,15 +135,13 @@ export function calcFocusCostForRow(row, baseItem, useFocus) {
  */
 export function calcCost(row, effectivePrice, rrr, qty = 1, baseItem, useFocus) {
   if (!row.recipe?.materials?.length) return null;
-  const rk = `${row.tier}${row.enchant}`;
 
   let total = (row.recipe.silver || 0) * qty;
 
   for (const m of row.recipe.materials) {
-    const p = effectivePrice(rk, m.uniqueName, row.materialPrices[m.uniqueName]);
+    const p = effectivePrice(m.uniqueName, row.materialPrices[m.uniqueName]);
     if (p === null || p === undefined) return null;
 
-    // Integer-correct RRR: buy (needed - floor(needed * rrr))
     const totalNeeded = qty * m.count;
     const toBuy = totalNeeded - Math.floor(totalNeeded * rrr);
     total += p * toBuy;
