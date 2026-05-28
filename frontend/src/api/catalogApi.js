@@ -1,7 +1,8 @@
 const ITEMS_TXT_URL =
   "https://raw.githubusercontent.com/broderickhyman/ao-bin-dumps/master/formatted/items.txt";
 
-const SKIP_PATTERN = /FARM_|MOUNT_|MOB_|QUESTITEM|SEED|BABY|BUTTER|MEAT|FISH|MEAL_|POTION_|TRASH|TOKEN|ARTEFACT_|RUNE|SOUL|RELIC|SHARD|MATERIAL|FIBER|HIDE|ORE|WOOD|ROCK|CLOTH|LEATHER|METALBAR|PLANKS|STONEBLOCK/;
+// Only include items whose ID matches known craftable equipment patterns
+const CRAFTABLE_PATTERN = /^T[4-8]_(MAIN_|2H_|HEAD_|ARMOR_|SHOES_|OFF_|BAG|CAPE)/;
 
 let _cache   = null;
 let _promise = null;
@@ -27,7 +28,7 @@ export async function loadCatalog() {
         const name       = match[2].trim();
         if (!uniqueName || !name) continue;
         if (uniqueName.includes("@")) continue;
-        if (SKIP_PATTERN.test(uniqueName)) continue;
+        if (!CRAFTABLE_PATTERN.test(uniqueName)) continue;
         items.push({ uniqueName: uniqueName.replace(/^T[4-8]_/, ""), localizedName: name });
       }
 
