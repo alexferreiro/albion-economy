@@ -11,6 +11,16 @@ export function EnchantCard({
   const c  = TIER_COLORS[tier];
   const rk = `${row.tier}${row.enchant}`;
   const [qty, setQty] = useState(1);
+  const [manualSell, setManualSell] = useState("");
+
+  // Effective sell price: manual override wins over API
+  const sellPrice = (() => {
+    if (manualSell !== "") {
+      const n = parseFloat(manualSell);
+      if (!isNaN(n) && n >= 0) return n;
+    }
+    return row.sellPrice;
+  })();
 
   // Resolve effective price: manual override wins over API price
   const effectivePrice = (matId, apiData) => {
@@ -24,7 +34,11 @@ export function EnchantCard({
 
   const focusCostPerItem = calcFocusCostForRow(row, baseItem, useFocus);
   const totalCost   = calcCost(row, effectivePrice, rrr, qty, baseItem, useFocus);
-  const totalProfit = calcProfit(row, totalCost, qty);
+  const totalProfit = (() => {
+    if (totalCost === null || sellPrice === null) return null;
+    const revenue = sellPrice * qty;
+    return revenue - totalCost - revenue * 0.04;
+  })();
   const totalFocus  = focusCostPerItem * qty;
   const positive    = totalProfit !== null && totalProfit > 0;
 
@@ -42,9 +56,25 @@ export function EnchantCard({
 
         <div style={s.metricsRow}>
           <div style={s.metrics}>
-            <Metric label="Avg sell"
-                    value={fmt(row.sellPrice)}
-                    color={c.text} />
+            <div style={s.sellBlock}>
+              <Metric label="Avg sell"
+                      value={fmt(row.sellPrice)}
+                      color={c.text} />
+              <input
+                type="number" min="0"
+                placeholder="Manual sell…"
+                value={manualSell}
+                onChange={e => setManualSell(e.target.value)}
+                style={{
+                  ...s.sellInput,
+                  borderColor: manualSell !== "" ? c.border : "#2a2a3a",
+                  color: manualSell !== "" ? c.text : "#6060a0",
+                }}
+              />
+              {manualSell !== "" && (
+                <button style={s.clearBtn} onClick={() => setManualSell("")}>✕</button>
+              )}
+            </div>
             <Metric label={qty > 1 ? `Craft cost ×${qty}` : "Craft cost"}
                     value={totalCost !== null ? fmt(totalCost) : "—"} />
             <Metric label={qty > 1 ? `Profit ×${qty}` : "Profit"}
@@ -201,7 +231,12 @@ const s = {
     outline: "none", width: 58, textAlign: "center", fontWeight: 700,
   },
 
-  body:        { padding: "10px 14px", flex: 1 },
+  sellBlock: { display: "flex", alignItems: "center", gap: 6 },
+  sellInput: {
+    background: "#0f0f18", border: "1px solid", borderRadius: 4,
+    padding: "2px 6px", fontSize: 11, fontFamily: "monospace",
+    outline: "none", width: 90, boxSizing: "border-box",
+  },
   sectionTitle:{ fontSize: 10, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#7070a0", marginBottom: 8 },
   matList:     { display: "flex", flexDirection: "column", gap: 5 },
 
