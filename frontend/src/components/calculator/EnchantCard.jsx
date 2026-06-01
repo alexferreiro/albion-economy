@@ -117,9 +117,14 @@ export function EnchantCard({
                   const overridden = manVal !== "";
 
                   const totalNeeded = qty * m.count;
-                  const returned    = Math.floor(totalNeeded * rrr);
-                  const toBuy       = totalNeeded - returned;
-                  const subtot      = effP !== null ? effP * toBuy : null;
+                  // Accumulative RRR: same logic as calcCost
+                  let stock = 0, toBuy = 0;
+                  for (let i = 0; i < qty; i++) {
+                    toBuy += Math.max(0, m.count - stock);
+                    stock = Math.max(0, stock - m.count) + Math.floor(m.count * rrr);
+                  }
+                  const returned = totalNeeded - toBuy;
+                  const subtot   = effP !== null ? effP * toBuy : null;
 
                   return (
                     <div

@@ -142,8 +142,14 @@ export function calcCost(row, effectivePrice, rrr, qty = 1, baseItem, useFocus) 
     const p = effectivePrice(m.uniqueName, row.materialPrices[m.uniqueName]);
     if (p === null || p === undefined) return null;
 
-    const totalNeeded = qty * m.count;
-    const toBuy = totalNeeded - Math.floor(totalNeeded * rrr);
+    // Accumulative RRR: first craft always costs full price,
+    // subsequent crafts can use returned materials from previous crafts
+    let stock = 0;
+    let toBuy = 0;
+    for (let i = 0; i < qty; i++) {
+      toBuy += Math.max(0, m.count - stock);
+      stock = Math.max(0, stock - m.count) + Math.floor(m.count * rrr);
+    }
     total += p * toBuy;
   }
 
